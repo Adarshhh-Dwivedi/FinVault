@@ -1,16 +1,18 @@
 package com.example.SpringBank.api.v1.request.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive; // Added for financial integrity
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import jakarta.validation.constraints.NotNull; // UPDATED: Changed from javax to jakarta
 import java.math.BigDecimal;
 
 /**
- * Updated for Java 21 and Spring Boot 3.4.4
+ * Refactored for SpringBank.
+ * Handles the transfer of funds between two accounts.
  */
 @Getter
 @Setter
@@ -26,5 +28,14 @@ public class TransferFundRequest {
     private Long creditAccountNumber;
 
     @NotNull(message = "{constraints.NotEmpty.message}")
+    @Positive(message = "Transfer amount must be greater than zero")
     private BigDecimal amount;
+
+    /**
+     * Logic check: Ensure accounts are different.
+     * While this can be done in the Service, it's good to keep in mind.
+     */
+    public boolean isSelfTransfer() {
+        return debitAccountNumber != null && debitAccountNumber.equals(creditAccountNumber);
+    }
 }

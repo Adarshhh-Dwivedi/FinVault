@@ -1,16 +1,17 @@
 package com.example.SpringBank.api.v1.request.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive; // New import for financial safety
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import jakarta.validation.constraints.NotNull; // UPDATED: Changed from javax to jakarta
 import java.math.BigDecimal;
 
 /**
- * Updated for Java 21 and Spring Boot 3.4.4
+ * Modernized for SpringBank
  */
 @Getter
 @Setter
@@ -23,5 +24,6 @@ public class DepositRequest {
     private Long accountNumber;
 
     @NotNull(message = "{constraints.NotEmpty.message}")
+    @Positive(message = "Deposit amount must be greater than zero") // Critical for banking logic
     private BigDecimal depositAmt;
 }

@@ -6,52 +6,51 @@ import com.example.SpringBank.dto.CustomerDto;
 import com.example.SpringBank.exception.EntityException;
 import com.example.SpringBank.exception.EntityNotFoundException;
 import com.example.SpringBank.service.customer.CustomerService;
-import jakarta.validation.Valid; // UPDATED: Changed from javax to jakarta
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
+/**
+ * Refactored for SpringBank project.
+ */
 @RestController
 @RequestMapping("/v1/customer")
 public class CustomerController {
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+    private final ModelMapper mapper;
 
-    @Autowired
-    private ModelMapper mapper;
+    // Standard Constructor Injection for Spring Boot 3.x+
+    public CustomerController(CustomerService customerService, ModelMapper mapper) {
+        this.customerService = customerService;
+        this.mapper = mapper;
+    }
 
     @GetMapping("/")
     public List<CustomerDto> getAllCustomers() {
-        List<Customer> customers = customerService.getAllCustomers();
-        if (customers != null && !customers.isEmpty()) {
-            return customers.stream()
-                    .map(customer -> mapper.map(customer, CustomerDto.class))
-                    .collect(Collectors.toList());
-        }
-        return Collections.emptyList();
+        // If list is null or empty, .stream() handles it safely if initialized properly in service
+        return customerService.getAllCustomers()
+                .stream()
+                .map(customer -> mapper.map(customer, CustomerDto.class))
+                .toList();
     }
 
     @GetMapping("/{ssn}")
     public CustomerDto getCustomer(@PathVariable("ssn") String ssn) throws EntityNotFoundException {
         Customer customer = customerService.getCustomer(ssn);
-        if (customer != null) {
-            return mapper.map(customer, CustomerDto.class);
-        }
-        return null;
+        // MapStruct or ModelMapper will handle the mapping
+        return mapper.map(customer, CustomerDto.class);
     }
 
     @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED) // Better REST practice to return 201 Created
     public CustomerDto createCustomer(@RequestBody @Valid CreateCustomerRequest createCustomerRequest) throws EntityException {
         CustomerDto customerDto = mapper.map(createCustomerRequest, CustomerDto.class);
         Customer customer = customerService.createCustomer(customerDto);
-        if (customer != null) {
-            return mapper.map(customer, CustomerDto.class);
-        }
-        return null;
+        return mapper.map(customer, CustomerDto.class);
     }
 }

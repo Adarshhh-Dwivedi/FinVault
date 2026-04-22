@@ -2,31 +2,27 @@ package com.example.SpringBank.api.v1.request.account;
 
 import com.example.SpringBank.domain.model.Account;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
-import jakarta.validation.constraints.NotNull; // UPDATED: Changed from javax to jakarta
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@Accessors(chain = true)
-@NoArgsConstructor
+/**
+ * Modern Java Record implementation for SpringBank.
+ * Records are immutable and concise.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreateAccountRequest {
+public record CreateAccountRequest(
 
-    @NotNull(message = "{constraints.NotEmpty.message}")
-    private Long customerId;
+        @NotNull(message = "{constraints.NotEmpty.message}")
+        Long customerId,
 
-    @NotNull(message = "{constraints.NotEmpty.message}")
-    private Account.AccountType type;
+        @NotNull(message = "{constraints.NotEmpty.message}")
+        Account.AccountType type,
 
-    @NotNull(message = "{constraints.NotEmpty.message}")
-    private Long branchId;
+        @NotNull(message = "{constraints.NotEmpty.message}")
+        Long branchId,
 
-    @NotNull(message = "{constraints.NotEmpty.message}")
-    private BigDecimal balance;
-
-}
+        @NotNull(message = "{constraints.NotEmpty.message}")
+        @DecimalMin(value = "0.0", inclusive = true, message = "Initial balance cannot be negative")
+        BigDecimal balance
+) {}
