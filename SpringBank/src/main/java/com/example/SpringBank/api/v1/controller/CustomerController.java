@@ -1,7 +1,7 @@
 package com.example.SpringBank.api.v1.controller;
 
 import com.example.SpringBank.api.v1.request.customer.CreateCustomerRequest;
-import com.example.SpringBank.domain.model.Customer;
+import Customer;
 import com.example.SpringBank.dto.CustomerDto;
 import com.example.SpringBank.exception.EntityException;
 import com.example.SpringBank.exception.EntityNotFoundException;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Refactored for SpringBank project.

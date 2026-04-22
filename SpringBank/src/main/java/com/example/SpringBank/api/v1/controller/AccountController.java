@@ -4,7 +4,7 @@ import com.example.SpringBank.api.v1.request.account.CreateAccountRequest;
 import com.example.SpringBank.api.v1.request.account.DepositRequest;
 import com.example.SpringBank.api.v1.request.account.TransferFundRequest;
 import com.example.SpringBank.api.v1.request.account.WithdrawalRequest;
-import com.example.SpringBank.domain.model.Account;
+import Account;
 import com.example.SpringBank.dto.AccountDto;
 import com.example.SpringBank.exception.EntityException;
 import com.example.SpringBank.exception.EntityNotFoundException;

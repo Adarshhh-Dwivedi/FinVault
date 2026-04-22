@@ -1,5 +1,8 @@
 package com.example.SpringBank.domain.model;
 
+import BaseDomainObject;
+import Branch;
+import Customer;
 import com.example.SpringBank.service.account.exception.InsufficientFundsException;
 import jakarta.persistence.*;
 import lombok.Getter;

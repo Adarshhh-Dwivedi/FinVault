@@ -1,6 +1,6 @@
 package com.example.SpringBank.api.v1.request.account;
 
-import com.example.SpringBank.domain.model.Account;
+import Account;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
