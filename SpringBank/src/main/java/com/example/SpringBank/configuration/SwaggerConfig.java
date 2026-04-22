@@ -7,9 +7,6 @@ import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Updated for Java 21, Spring Boot 3.4.4, and SpringDoc OpenAPI
- */
 @Configuration
 public class SwaggerConfig {
 
